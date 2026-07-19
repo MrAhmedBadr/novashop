@@ -2,22 +2,109 @@ import type { Category, Product, Review, Coupon, FlashSale } from "@/types";
 import { slugify } from "@/lib/utils";
 
 /**
- * Deterministic mock catalog. Images use picsum.photos seeds so they load
- * reliably without an image CDN or API key. Swap `productService` to Firebase
- * later without touching the UI.
+ * Deterministic mock catalog. Every product points at a hand-picked Unsplash
+ * photo of the actual product type — no random placeholders. Swap
+ * `productService` to Firebase later without touching the UI.
  */
 
-const img = (seed: string, size = 800) => `https://picsum.photos/seed/${seed}/${size}/${size}`;
+/** Unsplash photo id -> square, cropped, auto-formatted delivery URL. */
+const img = (id: string, size = 900) =>
+  `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${size}&h=${size}&q=80`;
+
+/**
+ * Photo ids grouped by category. The first seven of each group map 1:1 to the
+ * seven products in that category (order matches `productSeeds` below); the
+ * gallery on the product page cycles through the rest of the group.
+ */
+const photos = {
+  c1: [
+    "1505740420928-5e560c06d30e", // over-ear headphones
+    "1590658268037-6bf12165a8df", // true-wireless earbuds
+    "1545454675-3531b543be5d", // bookshelf speaker
+    "1598488035139-bdbb2231ce04", // studio control room
+    "1608043152269-423dbba4e7e1", // portable bluetooth speaker
+    "1606220945770-b5b6c2c55bf1", // sport earbuds
+    "1558584673-c834fb1cc3ca", // turntable + hi-fi amplifier
+    "1520170350707-b2da59970118", // premium headphones
+    "1613040809024-b4ef7ba99bc3", // headphones, studio lighting
+  ],
+  c2: [
+    "1546868871-7041f2a55e12", // smartwatch, product shot
+    "1576243345690-4e4b79b63288", // fitness band
+    "1524592094714-0f0654e20314", // analog hybrid watch
+    "1508057198894-247b23fe5ade", // watch on nato strap
+    "1605100804763-247f67b3557e", // ring
+    "1434493789847-2f02dc6ca35d", // smartwatch on wrist
+    "1523275335684-37898b6baf30", // round sport watch
+  ],
+  c3: [
+    "1496181133206-80ce9b88a853", // ultrabook
+    "1625948515291-69613efd103f", // mechanical keyboard
+    "1527864550417-7fd91fc51a46", // wireless mouse
+    "1593640408182-31c70c8268f5", // desktop monitor setup
+    "1618410320928-25228d811631", // laptop + dock on desk
+    "1517336714731-489689fd1ca8", // 16" laptop
+    "1595044426077-d36d9236d54a", // TKL keyboard, exposed switches
+    "1587829741301-dc798b83add3", // low-profile keyboard
+  ],
+  c4: [
+    "1516724562728-afc824a36e84", // mirrorless body
+    "1617005082133-548c4dd27f35", // prime lens
+    "1502920917128-1aa500764cbd", // compact camera
+    "1512790182412-b19e6d62bc39", // cine lens / rig
+    "1500634245200-e5245c7574ef", // SLR with zoom lens
+    "1495707902641-75cac588d2e9", // camera body on table
+    "1473968512647-3e447244af8f", // quadcopter drone
+  ],
+  c5: [
+    "1606813907291-d86efa9b94db", // current-gen console
+    "1592840496694-26d035b52b48", // controller
+    "1592478411213-6153e4ebc07d", // VR headset in use
+    "1599669454699-248893623440", // gaming headset
+    "1618384887929-16ec33fab9ef", // mechanical gaming keyboard
+    "1615663245857-ac93bb7c39e7", // gaming mouse
+    "1449965408869-eaa3f722e40d", // driving position / wheel
+    "1587202372775-e229f172b9d7", // RGB rig
+    "1542751371-adc38448a05e", // esports setup
+  ],
+  c6: [
+    "1545259741-2ea3ebf61fa3", // smart thermostat
+    "1507473885765-e6ed057f782c", // lamp / smart lighting
+    "1558002038-1055907df827", // smart door device + app
+    "1524634126442-357e0eac3c14", // bright, clean living room
+    "1558317374-067fb5f30001", // robot vacuum
+    "1543512214-318c7553f230", // smart speaker
+    "1521302080334-4bebac2763a6", // espresso
+  ],
+  c7: [
+    "1511707171634-5f897ff02aa9", // flagship phone
+    "1592286927505-1def25115558", // colourful phone
+    "1601593346740-925612772716", // phone case in hand
+    "1583863788434-e58a36330cf0", // charging adapter
+    "1609091839311-d5365f9ff1c5", // device in hand, backlit
+    "1610945265064-0e34e5519bbf", // phone pair, product shot
+    "1580910051074-3eb694886505", // phone on a flat surface
+  ],
+  c8: [
+    "1622560480605-d83c853bc5c3", // leather backpack
+    "1511499767150-a48a237f0083", // sunglasses
+    "1602143407151-7111542de6e8", // insulated bottle
+    "1553062407-98eeb64c6a62", // weekender bag
+    "1627123424574-724758594e93", // leather wallet
+    "1547949003-9792a18a2601", // travel bag
+    "1581553680321-4fffae59fccd", // luggage set
+  ],
+} as const;
 
 export const categories: Category[] = [
-  { id: "c1", name: "Audio", slug: "audio", description: "Reference-tuned headphones, earbuds and speakers engineered for pure, room-filling sound.", image: img("nova-audio", 1200), productCount: 0, featured: true },
-  { id: "c2", name: "Wearables", slug: "wearables", description: "Smartwatches, rings and bands that track every heartbeat and keep pace with your day.", image: img("nova-wear", 1200), productCount: 0, featured: true },
-  { id: "c3", name: "Computing", slug: "computing", description: "Featherweight laptops, tactile keyboards and pro accessories built to move fast.", image: img("nova-compute", 1200), productCount: 0, featured: true },
-  { id: "c4", name: "Photography", slug: "photography", description: "Mirrorless bodies, fast glass and stabilizers for every frame worth keeping.", image: img("nova-photo", 1200), productCount: 0, featured: true },
-  { id: "c5", name: "Gaming", slug: "gaming", description: "Next-gen consoles, low-latency controllers and immersive gear that disappears in your hands.", image: img("nova-game", 1200), productCount: 0 },
-  { id: "c6", name: "Home", slug: "home", description: "Smart-home essentials that make everyday spaces calmer, safer and effortlessly connected.", image: img("nova-home", 1200), productCount: 0 },
-  { id: "c7", name: "Mobile", slug: "mobile", description: "Flagship phones and the fast-charging, drop-proof accessories that go everywhere with them.", image: img("nova-mobile", 1200), productCount: 0 },
-  { id: "c8", name: "Lifestyle", slug: "lifestyle", description: "Everyday carry in full-grain leather and recycled fabrics, finished to a premium standard.", image: img("nova-life", 1200), productCount: 0 },
+  { id: "c1", name: "Audio", slug: "audio", description: "Reference-tuned headphones, earbuds and speakers engineered for pure, room-filling sound.", image: img(photos.c1[0], 1200), productCount: 0, featured: true },
+  { id: "c2", name: "Wearables", slug: "wearables", description: "Smartwatches, rings and bands that track every heartbeat and keep pace with your day.", image: img(photos.c2[0], 1200), productCount: 0, featured: true },
+  { id: "c3", name: "Computing", slug: "computing", description: "Featherweight laptops, tactile keyboards and pro accessories built to move fast.", image: img(photos.c3[0], 1200), productCount: 0, featured: true },
+  { id: "c4", name: "Photography", slug: "photography", description: "Mirrorless bodies, fast glass and stabilizers for every frame worth keeping.", image: img(photos.c4[0], 1200), productCount: 0, featured: true },
+  { id: "c5", name: "Gaming", slug: "gaming", description: "Next-gen consoles, low-latency controllers and immersive gear that disappears in your hands.", image: img(photos.c5[0], 1200), productCount: 0 },
+  { id: "c6", name: "Home", slug: "home", description: "Smart-home essentials that make everyday spaces calmer, safer and effortlessly connected.", image: img(photos.c6[0], 1200), productCount: 0 },
+  { id: "c7", name: "Mobile", slug: "mobile", description: "Flagship phones and the fast-charging, drop-proof accessories that go everywhere with them.", image: img(photos.c7[0], 1200), productCount: 0 },
+  { id: "c8", name: "Lifestyle", slug: "lifestyle", description: "Everyday carry in full-grain leather and recycled fabrics, finished to a premium standard.", image: img(photos.c8[0], 1200), productCount: 0 },
 ];
 
 const colorPalette = [
@@ -469,7 +556,12 @@ export const products: Product[] = productSeeds.map((seed, i) => {
   const slug = slugify(`${seed.name}`);
   const category = categories.find((c) => c.id === seed.cat)!;
   const colorCount = 2 + Math.floor(seeded(i + 3) * 5);
-  const images = [0, 1, 2, 3].map((k) => img(`${slug}-${k}`, 900));
+  // Products appear grouped by category in `productSeeds`, so the n-th product
+  // of a category takes the n-th photo of that category's group; the gallery
+  // wraps around the group for the remaining three shots.
+  const pool = photos[seed.cat as keyof typeof photos];
+  const offset = productSeeds.slice(0, i).filter((s) => s.cat === seed.cat).length;
+  const images = [0, 1, 2, 3].map((k) => img(pool[(offset + k) % pool.length], 900));
 
   return {
     id: `p${i + 1}`,

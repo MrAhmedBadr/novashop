@@ -12,8 +12,8 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
-        display: ["Sora", "Inter", "system-ui", "sans-serif"],
+        sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "Plus Jakarta Sans", "system-ui", "sans-serif"],
         mono: ["ui-monospace", "SFMono-Regular", "Menlo", "monospace"],
       },
       fontSize: {
@@ -100,9 +100,9 @@ const config: Config = {
         "glow-lg": "0 0 0 1px hsl(var(--primary) / 0.14), 0 16px 48px -12px hsl(var(--primary) / 0.45)",
       },
       transitionTimingFunction: {
-        // Signature spring-like easing used across the app
-        spring: "cubic-bezier(0.16, 1, 0.3, 1)",
-        "out-back": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        // Signature easing used across the app — a longer, calmer settle
+        spring: "cubic-bezier(0.22, 1, 0.36, 1)",
+        "out-back": "cubic-bezier(0.34, 1.42, 0.5, 1)",
       },
       backgroundImage: {
         "hero-glow":
@@ -121,31 +121,52 @@ const config: Config = {
         },
         shimmer: { "100%": { transform: "translateX(100%)" } },
         marquee: { from: { transform: "translateX(0)" }, to: { transform: "translateX(-50%)" } },
+        /* Slow vertical drift with a touch of roll — less "bobbing balloon". */
         float: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
+          "0%, 100%": { transform: "translate3d(0, 0, 0) rotate(0deg)" },
+          "50%": { transform: "translate3d(0, -16px, 0) rotate(1.5deg)" },
         },
+        /* Ambient background wash: wide, slow, asymmetric sweep. */
         aurora: {
-          "0%, 100%": { transform: "translate(0, 0) scale(1)", opacity: "0.7" },
-          "33%": { transform: "translate(3%, -4%) scale(1.06)", opacity: "0.9" },
-          "66%": { transform: "translate(-3%, 3%) scale(0.97)", opacity: "0.75" },
+          "0%, 100%": { transform: "translate(-4%, 2%) scale(1)", opacity: "0.5" },
+          "40%": { transform: "translate(6%, -8%) scale(1.18)", opacity: "0.8" },
+          "70%": { transform: "translate(-2%, -3%) scale(0.94)", opacity: "0.6" },
         },
         "spin-slow": { to: { transform: "rotate(360deg)" } },
+        /* Expanding halo, tuned to the teal primary. */
         "pulse-ring": {
-          "0%": { boxShadow: "0 0 0 0 hsl(var(--primary) / 0.4)" },
-          "70%": { boxShadow: "0 0 0 8px hsl(var(--primary) / 0)" },
+          "0%": { boxShadow: "0 0 0 0 hsl(var(--primary) / 0.45)" },
+          "65%": { boxShadow: "0 0 0 12px hsl(var(--primary) / 0)" },
           "100%": { boxShadow: "0 0 0 0 hsl(var(--primary) / 0)" },
+        },
+        /* Slow breathing scale for hero accents. */
+        breathe: {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.85" },
+          "50%": { transform: "scale(1.05)", opacity: "1" },
+        },
+        /* Gradient that travels along its own axis. */
+        "gradient-pan": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        /* Entrance for elements that should arrive with weight. */
+        "rise-in": {
+          from: { opacity: "0", transform: "translate3d(0, 24px, 0)" },
+          to: { opacity: "1", transform: "translate3d(0, 0, 0)" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-        "accordion-up": "accordion-up 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
-        shimmer: "shimmer 1.8s infinite",
-        marquee: "marquee 34s linear infinite",
-        float: "float 6s ease-in-out infinite",
-        aurora: "aurora 16s ease-in-out infinite",
-        "spin-slow": "spin-slow 14s linear infinite",
-        "pulse-ring": "pulse-ring 2s cubic-bezier(0.16, 1, 0.3, 1) infinite",
+        "accordion-down": "accordion-down 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+        "accordion-up": "accordion-up 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+        shimmer: "shimmer 2.2s infinite",
+        marquee: "marquee 26s linear infinite",
+        float: "float 9s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+        aurora: "aurora 24s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+        "spin-slow": "spin-slow 22s linear infinite",
+        "pulse-ring": "pulse-ring 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite",
+        breathe: "breathe 7s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+        "gradient-pan": "gradient-pan 8s cubic-bezier(0.45, 0, 0.55, 1) infinite",
+        "rise-in": "rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },

@@ -109,7 +109,7 @@ export default function Home() {
       {/* Promo split banner */}
       <section className="container-page">
         <div className="grid overflow-hidden rounded-3xl border md:grid-cols-2">
-          <div className="flex flex-col justify-center gap-4 bg-gradient-to-br from-primary to-fuchsia-700 p-10 text-white md:p-14">
+          <div className="flex flex-col justify-center gap-4 bg-gradient-to-br from-brand-from via-brand-via to-brand-to p-10 text-white md:p-14">
             <h3 className="font-display text-3xl font-bold leading-tight">Membership that pays for itself</h3>
             <p className="max-w-md text-white/80">
               Join NovaShop+ for free 2-day shipping, early access to drops, and exclusive member pricing.

@@ -41,7 +41,7 @@ export default function Register() {
 
   return (
     <div className="container-page grid min-h-[80vh] items-center py-12 lg:grid-cols-2 lg:gap-16">
-      <div className="relative hidden overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-fuchsia-700 p-10 text-white lg:flex lg:flex-col lg:justify-between">
+      <div className="relative hidden overflow-hidden rounded-3xl bg-gradient-to-br from-brand-from via-brand-via to-brand-to p-10 text-white lg:flex lg:flex-col lg:justify-between">
         <Logo className="[&_span:last-child]:text-white" />
         <div>
           <p className="font-display text-3xl font-bold leading-tight">Join NovaShop+ today</p>

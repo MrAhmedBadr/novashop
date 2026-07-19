@@ -45,7 +45,7 @@ function SuspenseOutlet() {
   );
 }
 
-export const router = createBrowserRouter([
+const routes = [
   {
     element: <RootLayout />,
     errorElement: <ErrorPage />,
@@ -88,4 +88,10 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+// Vite's BASE_URL is "/" in dev and "/novashop/" on GitHub Pages. Without this
+// the deployed app never matches "/" and every visit falls through to NotFound.
+export const router = createBrowserRouter(routes, {
+  basename: import.meta.env.BASE_URL.replace(/\/$/, "") || "/",
+});

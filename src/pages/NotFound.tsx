@@ -12,7 +12,7 @@ export default function NotFound() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="bg-gradient-to-br from-primary to-fuchsia-500 bg-clip-text font-display text-8xl font-extrabold text-transparent sm:text-9xl"
+        className="bg-gradient-to-br from-brand-from via-brand-via to-brand-to bg-clip-text font-display text-8xl font-extrabold text-transparent sm:text-9xl"
       >
         404
       </motion.p>

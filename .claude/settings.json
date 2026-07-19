@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import PIL; print\\('PIL ok'\\)\")",
+      "Bash(pip install *)",
+      "Bash(python sheet.py batch1.json sheet1.jpg)",
+      "Bash(python sheet.py batch2.json sheet2.jpg)",
+      "Bash(python sheet.py batch3.json sheet3.jpg)",
+      "Bash(python sheet.py batch4.json sheet4.jpg)",
+      "Bash(python sheet.py batch5.json sheet5.jpg)",
+      "Bash(npm run *)",
+      "Bash(npx --no-install playwright --version)",
+      "Bash(rm -rf ghpages)",
+      "Bash(mkdir -p ghpages)",
+      "Bash(cp -r \"c:/Users/ahmed.khaled/novashop/dist\" ghpages/novashop)",
+      "Bash(python -m http.server 8899)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:8899/novashop/)",
+      "Bash(curl -s http://localhost:8899/novashop/)",
+      "Bash(node -e ' *)",
+      "Bash(python -)",
+      "Bash(kill %1)"
+    ]
+  }
+}
