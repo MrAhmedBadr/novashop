@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>NovaShop</title>
+    <script>
+      // GitHub Pages has no server-side rewrite, so a hard visit to a deep link
+      // (e.g. /novashop/cart) serves this file instead of index.html. Stash the
+      // requested path in a single query param and bounce to the app root,
+      // which restores it via the history API before React Router boots.
+      (function () {
+        var base = "/novashop/";
+        var l = window.location;
+        var rest = l.pathname.indexOf(base) === 0 ? l.pathname.slice(base.length) : "";
+        var target = "/" + rest + l.search + l.hash;
+        l.replace(l.origin + base + "?redirect=" + encodeURIComponent(target));
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

@@ -2,9 +2,9 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/novashop/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="theme-color" content="#0a1014" />
     <title>NovaShop — Premium Commerce, Reimagined</title>
     <meta
       name="description"
@@ -16,18 +16,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
-    <script type="module" crossorigin src="/novashop/assets/index-B06iAQbZ.js"></script>
-    <link rel="modulepreload" crossorigin href="/novashop/assets/react-vendor-B-bzbfky.js">
-    <link rel="modulepreload" crossorigin href="/novashop/assets/data-vendor-CILJePzR.js">
-    <link rel="modulepreload" crossorigin href="/novashop/assets/charts-vendor-CvG4wBdz.js">
-    <link rel="modulepreload" crossorigin href="/novashop/assets/icons-vendor-DlRnVE-j.js">
-    <link rel="modulepreload" crossorigin href="/novashop/assets/motion-vendor-BGatce7o.js">
-    <link rel="stylesheet" crossorigin href="/novashop/assets/index-XtIjSWTQ.css">
+    <script type="module" crossorigin src="/novashop/assets/index-ClSdb94u.js"></script>
+    <link rel="modulepreload" crossorigin href="/novashop/assets/react-vendor-CffQ2FD6.js">
+    <link rel="modulepreload" crossorigin href="/novashop/assets/data-vendor-By2Q_O_b.js">
+    <link rel="modulepreload" crossorigin href="/novashop/assets/charts-vendor-Da9AID15.js">
+    <link rel="modulepreload" crossorigin href="/novashop/assets/icons-vendor-DUjC7mod.js">
+    <link rel="modulepreload" crossorigin href="/novashop/assets/motion-vendor-CROVeQ8I.js">
+    <link rel="stylesheet" crossorigin href="/novashop/assets/index-Cele0RSw.css">
   </head>
   <body>
+    <script>
+      // Restore the original path stashed by 404.html before React Router boots.
+      (function () {
+        var redirect = new URLSearchParams(window.location.search).get("redirect");
+        if (redirect && redirect.charAt(0) === "/") {
+          history.replaceState(null, "", window.location.pathname.replace(/\/$/, "") + redirect);
+        }
+      })();
+    </script>
     <div id="root"></div>
   </body>
 </html>
